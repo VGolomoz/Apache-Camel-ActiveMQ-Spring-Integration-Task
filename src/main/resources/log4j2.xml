@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
+        <Property name="APP_LOG_ROOT">./logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+
+        <RollingFile name="txtFilesLog"
+                     fileName="${APP_LOG_ROOT}/txtProcessLogs/txtFilesLog.log"
+                     filePattern="${APP_LOG_ROOT}/txtProcessLogs/txtFilesLog-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+
+        <RollingFile name="applicationLog" fileName="${APP_LOG_ROOT}/applicationLog.log"
+                     filePattern="${APP_LOG_ROOT}/applicationLog-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+
+        <Logger name="txtFilesLog" additivity="false">
+            <AppenderRef ref="txtFilesLog" />
+        </Logger>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="applicationLog" />
+        </Root>
+    </Loggers>
+</Configuration>
